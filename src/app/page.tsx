@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import FileTree from "@/components/FileTree";
 import CodeEditor from "@/components/CodeEditor";
 import { FileNode } from "@/types/file.types";
@@ -110,7 +111,7 @@ export default function Home() {
 
   const loadProject = async () => {
     if (!('showDirectoryPicker' in window)) {
-      alert('您的浏览器不支持文件系统访问 API。请使用 Chrome、Edge 或其他现代浏览器。');
+      toast.error('您的浏览器不支持文件系统访问 API。请使用 Chrome、Edge 或其他现代浏览器。');
       return;
     }
 
@@ -130,7 +131,7 @@ export default function Home() {
       await saveDirectoryHandle(dirHandle);
     } catch (error: any) {
       if (error.name !== 'AbortError') {
-        alert('加载项目失败：' + error.message);
+        toast.error('加载项目失败：' + error.message);
       }
     } finally {
       setLoading(false);
@@ -141,7 +142,7 @@ export default function Home() {
     setSelectedFile(path);
     const handle = fileHandles.get(path);
     if (!handle) {
-      alert('无法找到文件句柄');
+      toast.error('无法找到文件句柄');
       return;
     }
 
@@ -151,13 +152,13 @@ export default function Home() {
       const content = await file.text();
       setFileContent(content);
     } catch (error: any) {
-      alert('读取文件失败：' + error.message);
+      toast.error('读取文件失败：' + error.message);
     }
   };
 
   const handleSave = async (content: string) => {
     if (!fileHandle) {
-      alert('没有选中的文件');
+      toast.error('没有选中的文件');
       return;
     }
 
@@ -165,9 +166,9 @@ export default function Home() {
       const writable = await fileHandle.createWritable();
       await writable.write(content);
       await writable.close();
-      alert('文件保存成功！');
+      toast.success('文件保存成功！');
     } catch (error: any) {
-      alert('保存文件失败：' + error.message);
+      toast.error('保存文件失败：' + error.message);
     }
   };
 
