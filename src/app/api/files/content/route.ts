@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { execSync } from "child_process";
 
 function isValidPath(targetPath: string): boolean {
   try {
@@ -28,6 +29,7 @@ function isTextFile(filePath: string): boolean {
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const filePath = searchParams.get('path');
+  const type = searchParams.get('type'); // 'local' (default) or 'git'
 
   if (!filePath) {
     return NextResponse.json({ error: 'Path parameter is required' }, { status: 400 });
@@ -38,10 +40,13 @@ export async function GET(request: NextRequest) {
   }
 
   const resolved = path.resolve(filePath);
-  const stats = fs.statSync(resolved);
-
-  if (!stats.isFile()) {
-    return NextResponse.json({ error: 'Path must be a file' }, { status: 400 });
+  
+  // For Git version, we don't need to check if file exists locally (it might be deleted locally but exist in git)
+  if (type !== 'git') {
+    const stats = fs.statSync(resolved);
+    if (!stats.isFile()) {
+      return NextResponse.json({ error: 'Path must be a file' }, { status: 400 });
+    }
   }
 
   if (!isTextFile(resolved)) {
@@ -49,9 +54,28 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const content = fs.readFileSync(resolved, 'utf-8');
-    return NextResponse.json({ content });
-  } catch (error) {
+    if (type === 'git') {
+      try {
+        // Convert absolute path to relative path for git command
+        const workspaceRoot = process.cwd();
+        const relativePath = path.relative(workspaceRoot, resolved);
+        
+        // Use git show HEAD:path to get content from latest commit
+        const content = execSync(`git show HEAD:"${relativePath}"`, {
+          encoding: 'utf-8',
+          stdio: ['pipe', 'pipe', 'pipe'] // Prevent output to console
+        });
+        return NextResponse.json({ content });
+      } catch (error) {
+        console.warn('Failed to read git content:', error);
+        // If file is not in git (e.g. new file), return empty content or 404
+        return NextResponse.json({ content: '', error: 'File not found in git' }, { status: 404 });
+      }
+    } else {
+      const content = fs.readFileSync(resolved, 'utf-8');
+      return NextResponse.json({ content });
+    }
+  } catch {
     return NextResponse.json({ error: 'Failed to read file' }, { status: 500 });
   }
 }

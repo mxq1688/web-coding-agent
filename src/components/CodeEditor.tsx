@@ -3,18 +3,29 @@
 import { useState, useEffect } from "react";
 import { Save, ChevronDown, GitCompare } from "lucide-react";
 import dynamic from "next/dynamic";
+import { PendingEdit } from "@/types/editor.types";
 
 // Dynamically import editors to avoid SSR issues
 const MonacoEditor = dynamic(() => import("./editors/MonacoEditor"), { ssr: false });
 const CodeMirrorEditor = dynamic(() => import("./editors/CodeMirrorEditor"), { ssr: false });
 const AceEditorComponent = dynamic(() => import("./editors/AceEditor"), { ssr: false });
-const MonacoDiffEditor = dynamic(() => import("./editors/MonacoDiffEditor"), { ssr: false });
+const SplitDiffViewer = dynamic(() => import("./editors/SplitDiffViewer"), { ssr: false });
 
 interface CodeEditorProps {
   value: string;
   onChange: (value: string) => void;
   onSave: (value: string) => void;
   fileName: string;
+  onExplainCode?: (code: string) => void;
+  onOptimizeCode?: (code: string) => void;
+  onEditCode?: (code: string) => void;
+  pendingEdits?: PendingEdit[];
+  onAcceptEdit?: (editId: string) => void;
+  onRejectEdit?: (editId: string) => void;
+  onAcceptAllEdits?: () => void;
+  onRejectAllEdits?: () => void;
+  onCursorChange?: (position: { line: number; column: number }) => void;
+  onSelectionChange?: (text: string) => void;
 }
 
 type EditorType = "monaco" | "codemirror" | "ace";
@@ -25,12 +36,32 @@ const editorOptions = [
   { value: "ace" as EditorType, label: "Ace Editor", description: "经典 Web 编辑器" },
 ];
 
-export default function CodeEditor({ value, onChange, onSave, fileName }: CodeEditorProps) {
+export default function CodeEditor({ 
+  value, 
+  onChange, 
+  onSave, 
+  fileName, 
+  onExplainCode, 
+  onOptimizeCode, 
+  onEditCode,
+  pendingEdits,
+  onAcceptEdit,
+  onRejectEdit,
+  onAcceptAllEdits,
+  onRejectAllEdits,
+  onCursorChange,
+  onSelectionChange
+}: CodeEditorProps) {
   const [selectedEditor, setSelectedEditor] = useState<EditorType>("monaco");
   const [showDropdown, setShowDropdown] = useState(false);
   const [currentValue, setCurrentValue] = useState(value);
   const [originalValue, setOriginalValue] = useState(value); // 保存原始内容用于 diff
   const [isDiffMode, setIsDiffMode] = useState(false);
+  
+  // Git Diff 相关状态
+  const [diffSource, setDiffSource] = useState<'local' | 'git'>('local');
+  const [gitOriginalValue, setGitOriginalValue] = useState<string>('');
+  const [isLoadingGit, setIsLoadingGit] = useState(false);
 
   // Sync external value changes and save as original
   useEffect(() => {
@@ -44,14 +75,48 @@ export default function CodeEditor({ value, onChange, onSave, fileName }: CodeEd
     onChange(newValue);
   };
 
+  const fetchGitContent = async () => {
+    console.log('[DEBUG] fetchGitContent called for:', fileName);
+    if (!fileName) return;
+    
+    setIsLoadingGit(true);
+    try {
+      const url = `/api/files/content?path=${encodeURIComponent(fileName)}&type=git`;
+      console.log('[DEBUG] Fetching git content from:', url);
+      const response = await fetch(url);
+      console.log('[DEBUG] Git content response status:', response.status);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('[DEBUG] Git content length:', data.content?.length);
+        setGitOriginalValue(data.content || '');
+      } else {
+        console.error('[DEBUG] Failed to fetch git content, status:', response.status);
+        setGitOriginalValue('');
+      }
+    } catch (error) {
+      console.error('[DEBUG] Error fetching git content:', error);
+    } finally {
+      setIsLoadingGit(false);
+    }
+  };
+
+  console.log('[DEBUG] CodeEditor Render: isDiffMode=', isDiffMode, 'diffSource=', diffSource);
+
   const handleSave = () => {
     onSave(currentValue);
-    // 保存后更新原始版本
+    // 保存后更新原始版本为当前版本（新的基准）
     setOriginalValue(currentValue);
-    setIsDiffMode(false);
+    // 保持 diff 模式，让用户可以看到"已保存，无变化"的状态
+    // 用户可以手动退出 diff 模式
   };
 
   const toggleDiffMode = () => {
+    console.log('[DEBUG] Toggle Diff Mode');
+    console.log('[DEBUG] Current isDiffMode:', isDiffMode);
+    console.log('[DEBUG] originalValue length:', originalValue.length);
+    console.log('[DEBUG] currentValue length:', currentValue.length);
+    console.log('[DEBUG] Are they equal?', originalValue === currentValue);
     setIsDiffMode(!isDiffMode);
   };
 
@@ -69,15 +134,13 @@ export default function CodeEditor({ value, onChange, onSave, fileName }: CodeEd
   }, [currentValue]);
 
   const renderEditor = () => {
-    // Diff 模式：只使用 Monaco 的 Diff Editor
+    // Diff 模式：使用 GitHub 风格的 Unified Diff Viewer
     if (isDiffMode) {
       return (
-        <MonacoDiffEditor
-          original={originalValue}
+        <SplitDiffViewer
+          original={diffSource === 'git' ? gitOriginalValue : originalValue}
           modified={currentValue}
           fileName={fileName}
-          readOnly={false}
-          onModifiedChange={handleChange}
         />
       );
     }
@@ -87,6 +150,16 @@ export default function CodeEditor({ value, onChange, onSave, fileName }: CodeEd
       value: currentValue,
       onChange: handleChange,
       fileName,
+      onExplainCode,
+      onOptimizeCode,
+      onEditCode,
+      pendingEdits,
+      onAcceptEdit,
+      onRejectEdit,
+      onAcceptAllEdits,
+      onRejectAllEdits,
+      onCursorChange,
+      onSelectionChange,
     };
 
     switch (selectedEditor) {
@@ -181,6 +254,27 @@ export default function CodeEditor({ value, onChange, onSave, fileName }: CodeEd
                   </div>
                 </>
               )}
+            </div>
+          )}
+
+          {/* Diff Source Toggle - 仅在 Diff 模式下显示 */}
+          {isDiffMode && (
+            <div className="flex bg-gray-700 rounded p-0.5 mr-2">
+              <button
+                onClick={() => setDiffSource('local')}
+                className={`px-3 py-1 text-xs rounded transition-colors ${diffSource === 'local' ? 'bg-gray-600 text-white shadow-sm' : 'text-gray-400 hover:text-gray-300'}`}
+              >
+                本地对比
+              </button>
+              <button
+                onClick={() => {
+                  setDiffSource('git');
+                  if (!gitOriginalValue) fetchGitContent();
+                }}
+                className={`px-3 py-1 text-xs rounded transition-colors ${diffSource === 'git' ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-400 hover:text-gray-300'}`}
+              >
+                {isLoadingGit ? '加载中...' : 'Git 对比'}
+              </button>
             </div>
           )}
 

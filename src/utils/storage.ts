@@ -58,6 +58,7 @@ export const loadDirectoryHandle = async (): Promise<FileSystemDirectoryHandle |
 };
 
 // Verify if we still have permission to access the directory
+// Note: Only queries permission, does not request it (to avoid user activation requirement)
 export const verifyPermission = async (
   handle: FileSystemDirectoryHandle,
   mode: 'read' | 'readwrite' = 'readwrite'
@@ -69,11 +70,8 @@ export const verifyPermission = async (
     return true;
   }
   
-  // Request permission
-  if ((await handle.requestPermission(options)) === 'granted') {
-    return true;
-  }
-  
+  // Don't automatically request permission - requires user gesture
+  // User will need to click 'Select Folder' button if permission is lost
   return false;
 };
 

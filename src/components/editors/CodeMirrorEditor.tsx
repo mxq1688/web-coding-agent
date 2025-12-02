@@ -12,9 +12,12 @@ interface CodeMirrorEditorProps {
   value: string;
   onChange: (value: string) => void;
   fileName: string;
+  onExplainCode?: (code: string) => void;
+  onOptimizeCode?: (code: string) => void;
+  onEditCode?: (code: string) => void;
 }
 
-export default function CodeMirrorEditor({ value, onChange, fileName }: CodeMirrorEditorProps) {
+export default function CodeMirrorEditor({ value, onChange, fileName, onExplainCode, onOptimizeCode, onEditCode }: CodeMirrorEditorProps) {
   // Detect language extension from file name
   const getLanguageExtension = (fileName: string) => {
     const ext = fileName.split(".").pop()?.toLowerCase();

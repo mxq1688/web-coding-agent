@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import AceEditor from "react-ace";
 
 // Import Ace modes and themes
@@ -23,9 +22,12 @@ interface AceEditorComponentProps {
   value: string;
   onChange: (value: string) => void;
   fileName: string;
+  onExplainCode?: (code: string) => void;
+  onOptimizeCode?: (code: string) => void;
+  onEditCode?: (code: string) => void;
 }
 
-export default function AceEditorComponent({ value, onChange, fileName }: AceEditorComponentProps) {
+export default function AceEditorComponent({ value, onChange, fileName, onExplainCode, onOptimizeCode, onEditCode }: AceEditorComponentProps) {
   // Detect mode from file extension
   const getMode = (fileName: string) => {
     const ext = fileName.split(".").pop()?.toLowerCase();

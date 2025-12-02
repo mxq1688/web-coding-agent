@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { DiffEditor } from "@monaco-editor/react";
+import type { editor } from "monaco-editor";
 
 interface MonacoDiffEditorProps {
   original: string;  // 原始内容（旧版本）
@@ -18,6 +19,7 @@ export default function MonacoDiffEditor({
   readOnly = false,
   onModifiedChange,
 }: MonacoDiffEditorProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const diffEditorRef = useRef<any>(null);
 
   // 检测语言
@@ -48,7 +50,7 @@ export default function MonacoDiffEditor({
     return languageMap[ext || ""] || "plaintext";
   };
 
-  const handleEditorDidMount = (editor: any) => {
+  const handleEditorDidMount = (editor: editor.IStandaloneDiffEditor) => {
     diffEditorRef.current = editor;
 
     // 监听修改后的内容变化

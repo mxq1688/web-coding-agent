@@ -1,0 +1,154 @@
+Vercel CLI 48.9.0
+> NOTE: The Vercel CLI now collects telemetry regarding usage of the CLI.
+> This information is used to shape the CLI roadmap and prioritize features.
+> You can learn more, including how to opt-out if you'd not like to participate in this program, by visiting the following URL:
+> https://vercel.com/docs/cli/about-telemetry
+Loading scopes…
+Searching for existing projects…
+Local settings detected in vercel.json:
+- Install Command: npm install --legacy-peer-deps
+Auto-detected Project Settings (Next.js):
+- Build Command: next build
+- Development Command: next dev --port $PORT
+- Output Directory: Next.js default
+Linked to codebanana/ca3fb0b0-905e-4bc7-a9fd-4ed528b106ca (created .vercel and added it to .gitignore)
+> Connecting GitHub repository: https://github.com/mxq1688/web-coding-agent
+Error: Failed to link mxq1688/web-coding-agent. You need to add a Login Connection to your GitHub account first. (400)
+Visit https://vercel.com/docs/accounts/create-an-account#login-methods-and-connections for more information.
+Deploying codebanana/ca3fb0b0-905e-4bc7-a9fd-4ed528b106ca
+Uploading [--------------------] (0.0B/941.2KB)
+Uploading [=====---------------] (251.1KB/941.2KB)
+Uploading [==========----------] (479.5KB/941.2KB)
+Uploading [===============-----] (719.5KB/941.2KB)
+Uploading [====================] (941.2KB/941.2KB)
+Inspect: https://vercel.com/codebanana/ca3fb0b0-905e-4bc7-a9fd-4ed528b106ca/8dn1sTXAnKzcMr9t7CydJPKLmWoU [2s]
+Production: https://ca3fb0b0-905e-4bc7-a9fd-4ed528b106ca-c4kkoecux-codebanana.vercel.app [2s]
+https://ca3fb0b0-905e-4bc7-a9fd-4ed528b106ca-c4kkoecux-codebanana.vercel.appQueued
+Building
+2025-12-02T15:49:56.250Z  Running build in Washington, D.C., USA (East) – iad1
+2025-12-02T15:49:56.251Z  Build machine configuration: 2 cores, 8 GB
+2025-12-02T15:49:56.453Z  Retrieving list of deployment files...
+2025-12-02T15:49:56.456Z  Previous build caches not available.
+2025-12-02T15:49:56.946Z  Downloading 48 deployment files...
+2025-12-02T15:49:57.666Z  Running "vercel build"
+2025-12-02T15:49:58.068Z  Vercel CLI 48.12.0
+2025-12-02T15:49:58.427Z  Running "install" command: `npm install --legacy-peer-deps`...
+2025-12-02T15:50:01.610Z  npm warn deprecated lodash.get@4.4.2: This package is deprecated. Use the optional chaining (?.) operator instead.
+2025-12-02T15:50:01.667Z  npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+2025-12-02T15:50:14.153Z  
+2025-12-02T15:50:14.154Z  added 445 packages, and audited 446 packages in 15s
+2025-12-02T15:50:14.154Z  
+2025-12-02T15:50:14.155Z  144 packages are looking for funding
+2025-12-02T15:50:14.155Z    run `npm fund` for details
+2025-12-02T15:50:14.209Z  
+2025-12-02T15:50:14.210Z  3 vulnerabilities (1 low, 2 moderate)
+2025-12-02T15:50:14.210Z  
+2025-12-02T15:50:14.210Z  To address issues that do not require attention, run:
+2025-12-02T15:50:14.210Z    npm audit fix
+2025-12-02T15:50:14.210Z  
+2025-12-02T15:50:14.210Z  To address all issues, run:
+2025-12-02T15:50:14.210Z    npm audit fix --force
+2025-12-02T15:50:14.210Z  
+2025-12-02T15:50:14.211Z  Run `npm audit` for details.
+2025-12-02T15:50:14.272Z  Detected Next.js version: 15.3.4
+2025-12-02T15:50:14.316Z  Running "npm run build"
+2025-12-02T15:50:14.435Z  
+2025-12-02T15:50:14.438Z  > codebanana-web-template@1.0.0 build
+2025-12-02T15:50:14.439Z  > next build
+2025-12-02T15:50:14.439Z  
+2025-12-02T15:50:15.081Z  Attention: Next.js now collects completely anonymous telemetry regarding usage.
+2025-12-02T15:50:15.081Z  This information is used to shape Next.js' roadmap and prioritize features.
+2025-12-02T15:50:15.082Z  You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+2025-12-02T15:50:15.082Z  https://nextjs.org/telemetry
+2025-12-02T15:50:15.082Z  
+2025-12-02T15:50:15.138Z     ▲ Next.js 15.3.4
+2025-12-02T15:50:15.139Z  
+2025-12-02T15:50:15.157Z     Creating an optimized production build ...
+2025-12-02T15:50:24.934Z  
+2025-12-02T15:50:24.934Z  
+2025-12-02T15:50:24.934Z  Retrying 1/3...
+2025-12-02T15:50:29.156Z   ✓ Compiled successfully in 10.0s
+2025-12-02T15:50:29.158Z     Linting and checking validity of types ...
+2025-12-02T15:50:34.479Z  
+2025-12-02T15:50:34.480Z  Failed to compile.
+2025-12-02T15:50:34.481Z  
+2025-12-02T15:50:34.481Z  ./src/app/page.tsx
+2025-12-02T15:50:34.481Z  31:28  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.481Z  66:6  Warning: React Hook useEffect has a missing dependency: 'buildFileTree'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+2025-12-02T15:50:34.482Z  93:6  Warning: React Hook useCallback has a missing dependency: 'buildFileTree'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+2025-12-02T15:50:34.482Z  116:6  Warning: React Hook useEffect has a missing dependency: 'handleRefresh'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+2025-12-02T15:50:34.482Z  129:6  Warning: React Hook useEffect has a missing dependency: 'handleRefresh'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+2025-12-02T15:50:34.483Z  506:31  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.483Z  
+2025-12-02T15:50:34.483Z  ./src/components/AIChat.tsx
+2025-12-02T15:50:34.483Z  2:50  Error: 'Maximize2' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.483Z  106:6  Warning: React Hook useEffect has missing dependencies: 'action', 'handleSend', and 'initialPrompt'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+2025-12-02T15:50:34.484Z  
+2025-12-02T15:50:34.484Z  ./src/components/CodeEditor.tsx
+2025-12-02T15:50:34.484Z  134:6  Warning: React Hook useEffect has a missing dependency: 'handleSave'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+2025-12-02T15:50:34.484Z  
+2025-12-02T15:50:34.484Z  ./src/components/ContextMenu.tsx
+2025-12-02T15:50:34.485Z  4:10  Error: 'FileText' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.485Z  4:20  Error: 'FolderPlus' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.485Z  4:32  Error: 'Edit3' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.485Z  4:39  Error: 'Trash2' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.485Z  4:47  Error: 'Copy' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.485Z  
+2025-12-02T15:50:34.486Z  ./src/components/editors/AceEditor.tsx
+2025-12-02T15:50:34.486Z  30:73  Error: 'onExplainCode' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.486Z  30:88  Error: 'onOptimizeCode' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.486Z  30:104  Error: 'onEditCode' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.486Z  
+2025-12-02T15:50:34.487Z  ./src/components/editors/CodeMirrorEditor.tsx
+2025-12-02T15:50:34.487Z  20:71  Error: 'onExplainCode' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.488Z  20:86  Error: 'onOptimizeCode' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.488Z  20:102  Error: 'onEditCode' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.488Z  
+2025-12-02T15:50:34.488Z  ./src/components/editors/MonacoDiffViewer.tsx
+2025-12-02T15:50:34.488Z  3:18  Error: 'useEffect' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.489Z  5:33  Error: 'ChevronUp' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.489Z  78:17  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.489Z  79:34  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.489Z  87:17  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.489Z  88:34  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.489Z  
+2025-12-02T15:50:34.490Z  ./src/components/editors/MonacoEditor.tsx
+2025-12-02T15:50:34.495Z  59:31  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.495Z  123:46  Error: 'monaco' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.496Z  133:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.496Z  152:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.498Z  171:19  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.499Z  186:44  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.499Z  196:45  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.499Z  
+2025-12-02T15:50:34.499Z  ./src/components/editors/MonacoEditorEnhanced.tsx
+2025-12-02T15:50:34.508Z  6:10  Error: 'applyEdit' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.509Z  31:3  Error: 'onAcceptEdit' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.509Z  32:3  Error: 'onRejectEdit' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.509Z  86:6  Warning: React Hook useEffect has a missing dependency: 'decorationIds'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+2025-12-02T15:50:34.509Z  
+2025-12-02T15:50:34.510Z  ./src/components/editors/SplitDiffViewer.tsx
+2025-12-02T15:50:34.510Z  22:3  Error: 'fileName' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.519Z  116:60  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+2025-12-02T15:50:34.520Z  116:65  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+2025-12-02T15:50:34.520Z  
+2025-12-02T15:50:34.520Z  ./src/lib/aiPromptBuilder.ts
+2025-12-02T15:50:34.520Z  169:38  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.520Z  214:9  Error: 'result' is never reassigned. Use 'const' instead.  prefer-const
+2025-12-02T15:50:34.521Z  220:35  Error: 'newStart' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.521Z  237:52  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.521Z  256:60  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2025-12-02T15:50:34.521Z  
+2025-12-02T15:50:34.521Z  ./src/lib/codeParser.ts
+2025-12-02T15:50:34.521Z  200:13  Error: 'trimmed' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.521Z  
+2025-12-02T15:50:34.521Z  ./src/lib/multiFileManager.ts
+2025-12-02T15:50:34.521Z  6:10  Error: 'CodeParser' is defined but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.521Z  97:13  Error: 'dependencies' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.521Z  
+2025-12-02T15:50:34.521Z  ./src/utils/editorHelper.ts
+2025-12-02T15:50:34.521Z  126:9  Error: 'lines' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.521Z  135:11  Error: 'newStart' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+2025-12-02T15:50:34.521Z  
+2025-12-02T15:50:34.521Z  info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+2025-12-02T15:50:34.524Z  Error: Command "npm run build" exited with 1
